@@ -1,5 +1,6 @@
 package ru.fesenko.helloweather.WeatherUI
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -23,8 +24,9 @@ import ru.fesenko.helloweather.network.RetrofitInstance
 import ru.fesenko.helloweather.network.WeatherInfo
 import kotlin.random.Random
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun WeatherStart() {
+fun WeatherSecond() {
     var weatherInfo by remember {
         mutableStateOf(
             WeatherInfo(
@@ -79,3 +81,4 @@ fun WeatherStart() {
 
     }
 }
+

@@ -15,7 +15,7 @@ fun NavGraph(navHostController: NavHostController) {
     NavHost(navController = navHostController, startDestination = "screen_1") {
 
     composable ("screen_1"){
-        Screen1(LocalContext.current)
+        Screen1()
 
 
     }

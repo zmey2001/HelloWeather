@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,7 +39,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.fesenko.helloweather.WeatherUI.WeatherCard
-import ru.fesenko.helloweather.WeatherUI.WeatherStart
+import ru.fesenko.helloweather.WeatherUI.WeatherSecond
+import ru.fesenko.helloweather.WeatherUI.WeatherFirst
 import ru.fesenko.helloweather.network.RetrofitInstance
 import ru.fesenko.helloweather.network.WeatherInfo
 import kotlin.random.Random
@@ -47,60 +49,14 @@ import kotlin.random.Random
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun  Screen2() {
-    WeatherStart()
+    WeatherSecond()
+
 }
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun  Screen1(context: Context) {
-    Text ( "122" , modifier = Modifier
-        .padding(top= 100.dp))
-    Log.d("Screen_2", "d")
-
-    GlobalScope.launch(Dispatchers.IO) {
-
-        val fLocationClient = LocationServices.getFusedLocationProviderClient(context)
-        val ct = CancellationTokenSource()
-        // Проверка разрешений на местоположение
-        if (ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-
-            // TODO: Передать правильный activity и requestCode вместо 'context' и 'YOUR_REQUEST_CODE'
-            if (context is Activity) { // Проверяем, что context является Activity
-                ActivityCompat.requestPermissions(
-                    context,
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ),
-                    YOUR_REQUEST_CODE // Необходимо определить константу для кода запроса
-                )
-            }
-            return@launch
-        }
-
-        // Запрос текущего местоположения с высокой точностью
-        fLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, ct.token)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful && task.result != null) {
-                    val location = task.result
-                    Log.d(
-                        "Location",
-                        "Latitude: ${location.latitude}, Longitude: ${location.longitude}"
-                    )
-                    MainActivity.setGlobalVariable(Pair(location.latitude, location.longitude))
-                } else {
-                    Log.d("Location", "Failed to get location")
-                }
-            }
-    }
+fun  Screen1() {
+    WeatherFirst(LocalContext.current)
 }
 
 @Composable
@@ -136,10 +92,6 @@ fun Histogram(weatherInfo: WeatherInfo, randomValues: List<Int>, maxValue: Int) 
 
 
 
-
-
-
-
                         ) {
 
                         Text(text = "${weatherInfo.temperature-273}")
@@ -171,5 +123,5 @@ fun Histogram(weatherInfo: WeatherInfo, randomValues: List<Int>, maxValue: Int) 
 
 }
 
-private const val  YOUR_REQUEST_CODE = 1001
+
 
