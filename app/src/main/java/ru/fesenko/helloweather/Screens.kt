@@ -61,7 +61,6 @@ fun  Screen1(context: Context) {
 
         val fLocationClient = LocationServices.getFusedLocationProviderClient(context)
         val ct = CancellationTokenSource()
-
         // Проверка разрешений на местоположение
         if (ActivityCompat.checkSelfPermission(
                 context,
