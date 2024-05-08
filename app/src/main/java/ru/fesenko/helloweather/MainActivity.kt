@@ -34,38 +34,52 @@ import ru.fesenko.helloweather.network.HourlyForecastResponse
 import ru.fesenko.helloweather.network.WeatherInfo
 
 import android.Manifest
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.tasks.CancellationTokenSource
-import ru.fesenko.helloweather.WeatherUI.WeatherScaffold
-import ru.fesenko.helloweather.WeatherUI.convertUnixToOmskTime
+import kotlinx.coroutines.delay
+import ru.fesenko.helloweather.weatherUI.WeatherScaffold
+import ru.fesenko.helloweather.weatherUI.convertUnixToOmskTime
 
 class MainActivity : ComponentActivity() {
-    companion object {
-        lateinit var globalVariable:  Pair<Double, Double>
-            private set
-
-        fun setGlobalVariable(value: Pair<Double, Double>) {
-            globalVariable = value
-        }
-    }
+//    companion object {
+//        lateinit var globalVariable:  Pair<Double, Double>
+//            private set
+//
+//        fun setGlobalVariable(value: Pair<Double, Double>) {
+//            globalVariable = value
+//        }
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-
-
-
-
-
         setContent {
-            WeatherScaffold()
+//состояние для отрисовки сплеша
+            var navigateToSecondScreen by remember { mutableStateOf(false) }
 
+            LaunchedEffect(Unit) {
+                delay(3000) // Переключение через 2 секунды
+                navigateToSecondScreen = true
+            }
 
-
-
-
+            if (navigateToSecondScreen) {
+                WeatherScaffold()
+            } else {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                   SplashScreen(LocalContext.current)
+                }
+            }
         }
     }
     }
@@ -221,13 +235,6 @@ private fun getWindDirection(degrees: Double): String {
 
 }
 
-
-@Composable
-private fun init() {
-
-
-
-}
 
 
 fun getLastLocation(context: Context) {

@@ -1,4 +1,4 @@
-package ru.fesenko.helloweather.WeatherUI
+package ru.fesenko.helloweather.weatherUI
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

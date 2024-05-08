@@ -55,7 +55,7 @@ dependencies {
     implementation ("com.google.android.gms:play-services-location:20.0.0")
     implementation ("androidx.room:room-ktx:2.4.2")
     kapt ("androidx.room:room-compiler:2.4.2")
-
+    implementation ("androidx.compose.runtime:runtime-livedata:1.6.7")
     implementation ("androidx.navigation:navigation-compose:2.7.7")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")

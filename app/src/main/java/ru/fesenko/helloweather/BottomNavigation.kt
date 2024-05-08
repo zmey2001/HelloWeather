@@ -44,7 +44,6 @@ fun BottomNavigation (navController: NavController) {
                     unselectedTextColor = Color.Gray
                 )
 
-
                 )
         }
 

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Hello Weather</string>
+    <string name="wind_info">Ветер</string>
+    <string name="right_now">Прямо сейчас</string>
 </resources>
