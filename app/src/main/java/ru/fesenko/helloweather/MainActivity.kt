@@ -175,57 +175,9 @@ fun displayHourlyForecast(response: HourlyForecastResponse) {
     }
 }
 
-private fun displayCurrentWeather(response: CurrentWeatherResponse) {
-    val id= response.weather[0].id
-    val temperature = response.main.temp // Текущая температура
-    val feelsLikeTemperature = response.main.feelsLike // Температура "ощущается как"
-    val weatherDescription = response.weather.first().id // Описание погоды
-    val windSpeed = response.wind.speed // Скорость ветра
-    val visibility = response.visibility // Видимость
-    val humidity = response.humidity // Влажность
 
 
 
-    // Вывод информации о текущей погоде
-
-    Log.d("Current Weather", "id: $id")
-    Log.d("Current Weather", "Temperature: $temperature°C, Feels like: $feelsLikeTemperature°C")
-    Log.d("Current Weather", "Description: $weatherDescription")
-    Log.d("Current Weather", "Wind Speed: $windSpeed m/s")
-    Log.d("Current Weather", "Visibility: $visibility meters")
-    Log.d("Current Weather", "Humidity: $humidity%")
-    Log.d("Current Weather", "Рассвет: ${response.sys.sunrise}")
-    Log.d("Current Weather", "Закат: ${response.sys.sunset}")
-    Log.d("Current Weather", "Направление ветра: ${getWindDirection(response.wind.deg)}")
-}
-
-
-
-fun displayCurrentWeatherView(response: CurrentWeatherResponse): WeatherInfo {
-    val id= response.weather[0].id
-    val temperature = response.main.temp
-    val feelsLikeTemperature = response.main.feelsLike.toString()
-    val weatherDescription = response.weather.first().description
-    val windSpeed = response.wind.speed.toString()
-    val visibility = response.visibility.toString()
-    val pressure =response.wind.pressure
-    val humidity = response.humidity.toString()
-    val sunset = response.sys.sunset
-    val sunrise = response.sys.sunrise
-
-    return  WeatherInfo(
-        id=id,
-        temperature = temperature,
-        feelsLikeTemperature = feelsLikeTemperature,
-        weatherDescription = weatherDescription,
-        windSpeed = windSpeed,
-        pressure = pressure,
-        visibility = visibility,
-        humidity = humidity,
-        sunset = sunset,
-        sunrise = sunrise
-    )
-}
 
 private fun getWindDirection(degrees: Double): String {
     val directions = arrayOf("С", "ССВ", "СВ", "ВСВ", "В", "ВЮВ", "ЮВ", "ЮЮВ", "Ю", "ЮЮЗ", "ЮЗ", "ЗЮЗ", "З", "ЗСЗ", "СЗ", "ССЗ")

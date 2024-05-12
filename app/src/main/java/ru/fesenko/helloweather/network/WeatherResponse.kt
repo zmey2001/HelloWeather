@@ -4,9 +4,9 @@ data class CurrentWeatherResponse(
     val main: Main,
     val weather: List<Weather>,
     val wind: Wind,
-    val visibility: Int, // Видимость (в метрах)
-    val humidity: Int ,// Влажность (в процентах)
-    val sys: Sys
+   // Влажность (в процентах)
+    val sys: Sys,
+    val visibility: Int,
 )
 
 data class HourlyForecastResponse(
@@ -22,7 +22,10 @@ data class HourlyForecastItem(
 data class Main(
     val temp: Double, // Температура
     val feelsLike: Double,
-    val id: Int
+    val id: Int,
+    val pressure: Double,
+     // Видимость (в метрах)
+    val humidity: Int
     // Другие параметры, такие как давление, влажность и т.д.
 )
 data class Wind(
@@ -40,4 +43,5 @@ data class Sys(
     val sunrise: Long, // Время восхода солнца в формате Unix timestamp (секунды)
     val sunset: Long // Время захода солнца в формате Unix timestamp (секунды)
 )
+
 

@@ -52,6 +52,8 @@ android {
 }
 
 dependencies {
+    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("io.coil-kt:coil:2.6.0")
     implementation ("com.google.android.gms:play-services-location:20.0.0")
     implementation ("androidx.room:room-ktx:2.4.2")
     kapt ("androidx.room:room-compiler:2.4.2")
