@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- styles.xml -->
+    <style name="AppTheme" parent="Theme.HelloWeather">
+        <!-- Другие атрибуты стиля -->
+        <item name="android:fontFamily">@font/roboto</item> <!-- Установите ваш шрифт -->
+    </style>
 
 </resources>

@@ -16,8 +16,8 @@ import ru.fesenko.helloweather.network.WeatherInfo
 @Composable
 fun WeatherSecond(
     weatherData: UnitConverter,
-    hourlyForecast: List<WeatherInfo>?,
-    maxTemperature: Int
+//    hourlyForecast: List<WeatherInfo>?,
+//    maxTemperature: Int
 ) {
     Column(modifier = Modifier.padding(top = 60.dp, start = 10.dp, end = 10.dp)) {
         Text(
@@ -34,6 +34,9 @@ fun WeatherSecond(
         )
         // Другие текстовые элементы для отображения данных о погоде
         WeatherCard(weatherData)
-//        WeatherHistogram(hourlyForecast, maxTemperature)
+//        if (hourlyForecast!!.isEmpty() != true) {
+//            WeatherHistogram(hourlyForecast, maxTemperature)
+//        }
+//
     }
 }

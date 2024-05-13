@@ -47,7 +47,6 @@ import coil.compose.AsyncImage
 @Composable
 fun WeatherCard(weatherData: UnitConverter) {
     var isExpanded by remember { mutableStateOf(true) }
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -64,7 +63,7 @@ fun WeatherCard(weatherData: UnitConverter) {
                 Row {
 
                     AsyncImage(
-                        model =  "https://openweathermap.org/img/wn/${getIconName(500)}.png",
+                        model =  "https://openweathermap.org/img/wn/${getIconName(weatherData.weatherInfo.id)}.png",
                         contentDescription = null,
 
                         contentScale = ContentScale.Crop,
@@ -95,24 +94,16 @@ fun WeatherCard(weatherData: UnitConverter) {
                 }
             } else {
                 Column {
-//                    WheatherInfo(R.drawable.sun,"Восход ${convertUnixToOmskTime(weatherData.weatherInfo.sunrise)} --> Закат ${convertUnixToOmskTime(weatherInfo.sunset)} \n${convertUnixToOmskTime(weatherInfo.sunrise,weatherInfo.sunset)} часов дневного времени")
-//                    WheatherInfo(R.drawable.droplet, "Влажность ${weatherInfo.humidity}%")
-                    WheatherInfo(R.drawable.pressure, "Давление ${weatherData.pressureUnit}")
-//                    WheatherInfo(R.drawable.cloud, "Видимость ${weatherInfo.visibility}")
+                    WheatherInfo(R.drawable.sun,weatherData.sunriseANDsunsetUnit)
+                    WheatherInfo(R.drawable.droplet, weatherData.humidityUnit)
+                    WheatherInfo(R.drawable.pressure, weatherData.pressureUnit)
+                  WheatherInfo(R.drawable.cloud, weatherData.visibilityUnit)
                 }
             }
         }
     }
 
 }
-
-
-val imageMap: Map<Int, Int> = mapOf(
-    500 to R.drawable.rain,
-    800 to R.drawable.sun,
-    *(801..804).map { it to R.drawable.cloud }.toTypedArray(),
-
-    )
 
 @Composable
 fun WheatherInfo (imageId:Int, info:String) {
@@ -135,27 +126,6 @@ fun WheatherInfo (imageId:Int, info:String) {
             Text(text = info)
         }
     }
-}
-
-
-
-fun convertUnixToOmskTime(unixTime: Long): String {
-    // Создаем объект SimpleDateFormat
-    val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-    // Устанавливаем часовой пояс для Омска (GMT+6)
-    sdf.timeZone = TimeZone.getTimeZone("Asia/Omsk")
-    // Конвертируем UNIX время в строку с учетом часового пояса
-    return sdf.format(Date( unixTime * 1000))
-}
-
-fun convertUnixToOmskTime(startUnixTime: Long, endUnixTime: Long): String {
-    // Вычисляем разницу времени в секундах
-    val timeDifferenceInSeconds = endUnixTime - startUnixTime
-    // Конвертируем разницу времени в часы
-    val hours = timeDifferenceInSeconds / 3600
-    val minutes = (timeDifferenceInSeconds % 3600) / 60
-    val seconds = timeDifferenceInSeconds % 60
-    return "$hours часов $minutes минут"
 }
 private fun getIconName(weatherId: Int): String {
     return when (weatherId) {

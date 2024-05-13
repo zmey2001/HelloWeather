@@ -15,7 +15,6 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.launch
 import ru.fesenko.helloweather.network.RetrofitInstance
 import ru.fesenko.helloweather.network.WeatherInfo
-import ru.fesenko.helloweather.weatherUI.WeatherSecond
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
@@ -26,6 +25,7 @@ import kotlinx.coroutines.GlobalScope
 import ru.fesenko.helloweather.dataHandler.UnitConverter
 import ru.fesenko.helloweather.network.CurrentWeatherResponse
 import ru.fesenko.helloweather.network.HourlyForecastResponse
+import ru.fesenko.helloweather.weatherUI.WeatherSecond
 import ru.fesenko.helloweather.weatherUI.convertUnixToOmskTime
 
 private const val  YOUR_REQUEST_CODE = 1001
@@ -33,12 +33,12 @@ private const val  YOUR_REQUEST_CODE = 1001
 object  WeatherViewModel : ViewModel() {
     private val _weatherInfo = MutableLiveData<WeatherInfo>()
     val weatherInfo: LiveData<WeatherInfo> = _weatherInfo
-    private val _hourlyForecast = MutableLiveData<List<WeatherInfo>>()
-    val hourlyForecast:  LiveData<List<WeatherInfo>> = _hourlyForecast
+//    private var _hourlyForecast = MutableLiveData<List<WeatherInfo>>()
+    var hourlyForecast = MutableLiveData<List<WeatherInfo>>()
     @Composable
     fun fetchWeather() {
-        WeatherFirst.fetchCurrentLocation(LocalContext.current)
-        val currentLocationPair by WeatherFirst.currentLocationLiveData.observeAsState()
+        GetCoord.fetchCurrentLocation(LocalContext.current)
+        val currentLocationPair by GetCoord.currentLocationLiveData.observeAsState()
         val service = RetrofitInstance.create()
         viewModelScope.launch {
             try {
@@ -57,7 +57,8 @@ object  WeatherViewModel : ViewModel() {
 
                 _weatherInfo.value = displayCurrentWeatherView(response2)
                 displayHourlyForecast(response)
-                _hourlyForecast.value= extractHourlyForecast(response)
+                hourlyForecast.postValue(extractHourlyForecast(response))
+                Log.d("11",  hourlyForecast!!.value?.get(0)!!.temperature.toString())
 
             } catch (e: Exception) {
                 Log.e("Weather", "Error: ${e.message}")
@@ -71,11 +72,17 @@ object WeatherUIController {
     fun observeWeatherInfo() {
         val weatherViewModel = WeatherViewModel
         val weatherInfo by weatherViewModel.weatherInfo.observeAsState()
-        val hourlyForecast by weatherViewModel.hourlyForecast.observeAsState()
+        val hourlyForecast by  weatherViewModel.hourlyForecast.observeAsState()
         val  unitConverter= UnitConverter(weatherInfo = weatherInfo ?: WeatherInfo())
         unitConverter.convertUnits()
-        val maxTemperature=findMaxTemperature(hourlyForecast)
-        WeatherSecond(unitConverter,hourlyForecast,maxTemperature)
+
+//        Log.d("datta12", hourlyForecast?.get(0)?.temperature.toString())
+        val maxTemperature=17
+//        Log.d("11",  hourlyForecast?.get(0)?.temperature.toString())
+        WeatherSecond(unitConverter)
+
+
+
     }
 }
 
@@ -83,7 +90,7 @@ object WeatherUIController {
 
 
 
-object WeatherFirst: ViewModel()  {
+object GetCoord: ViewModel()  {
     var currentLocationLiveData = MutableLiveData<Pair<Double, Double>>()
     fun fetchCurrentLocation(context: Context) {
         GlobalScope.launch(Dispatchers.IO) {
@@ -181,7 +188,6 @@ private fun displayCurrentWeather(response: CurrentWeatherResponse) {
     Log.d("Current Weather", "Направление ветра: ${response.wind.deg}")
 }
 
-
 fun displayHourlyForecast(response: HourlyForecastResponse) {
     val hourlyForecastList = response.list
     for (hourlyForecastItem in hourlyForecastList) {
@@ -209,4 +215,17 @@ fun findMaxTemperature(weatherInfoList: List<WeatherInfo>?): Int{
     // Находим максимальное значение температуры
     val maxTemperatureWeatherInfo = weatherInfoList?.maxByOrNull { it.temperature } ?: return 0
     return maxTemperatureWeatherInfo.temperature.toInt()
+}
+fun printHourlyForecast(hourlyForecast: List<WeatherInfo>) {
+    hourlyForecast.forEachIndexed { index, weatherInfo ->
+        Log.d("HourlyForecast", "Hourly Forecast #$index:")
+        Log.d("HourlyForecast", "ID: ${weatherInfo.id}")
+        Log.d("HourlyForecast", "Temperature: ${weatherInfo.temperature}")
+        Log.d("HourlyForecast", "Feels Like Temperature: ${weatherInfo.feelsLikeTemperature}")
+        Log.d("HourlyForecast", "Weather Description: ${weatherInfo.weatherDescription}")
+        Log.d("HourlyForecast", "Pressure: ${weatherInfo.pressure}")
+        Log.d("HourlyForecast", "Humidity: ${weatherInfo.humidity}")
+        Log.d("HourlyForecast", "") // Пустая строка для разделения прогнозов
+    }
+
 }

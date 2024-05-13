@@ -16,18 +16,21 @@ class UnitConverter(
     var visibilityUnit: String="",
     var pressureUnit: String="",
     var feelsLikeTemperatureUnit: String="",
-    var sunrisesunsetUnit: String="",
-    var weatherInfo: WeatherInfo
+    var sunriseANDsunsetUnit: String="",
+    var humidityUnit:String="",
+    var weatherInfo: WeatherInfo,
+
 ) {
     @Composable
     fun convertUnits(){
         temperatureUnit= convertTemperature(2,weatherInfo.temperature)
         speedUnit= convertSpeed(1,weatherInfo.windSpeed)
-        visibilityUnit= convertVisibility(1,weatherInfo.visibility)
-        pressureUnit=convertPressure(1,weatherInfo.pressure)
+        visibilityUnit= "${LocalContext.current.resources.getString(R.string.visibility)} ${convertVisibility(1,weatherInfo.visibility)}"
+        pressureUnit=convertPressure(2,weatherInfo.pressure)
         feelsLikeTemperatureUnit= "${LocalContext.current.resources.getString(R.string.feels_like)} ${temperatureUnit}"
+        sunriseANDsunsetUnit=calculationDay(weatherInfo.sunrise,weatherInfo.sunset)
+        humidityUnit="${LocalContext.current.resources.getString(R.string.humidity)} ${weatherInfo.humidity}%"
     }
-
     private fun convertTemperature(unit: Int, value: Double): String {
         return when (unit) {
             1 -> "${value.roundToInt() }°C" // Цельсий
@@ -36,7 +39,6 @@ class UnitConverter(
             else -> value.toString()
         }
     }
-
     private fun convertSpeed( unit: Int,value: Double): String {
         return when (unit) {
             1 -> "$value м/с"
@@ -51,7 +53,6 @@ class UnitConverter(
             else -> value.toString()
         }
     }
-
     private fun convertPressure( unit: Int, value: Double): String {
         return when (unit) {
             1 -> "$value гПа"
@@ -59,7 +60,6 @@ class UnitConverter(
             else -> value.toString()
         }
     }
-
     private fun convertUnixToOmskTime(unixTime: Long): String {
         // Создаем объект SimpleDateFormat
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
@@ -68,7 +68,6 @@ class UnitConverter(
         // Конвертируем UNIX время в строку с учетом часового пояса
         return sdf.format(Date( unixTime * 1000))
     }
-
     private fun convertUnixToOmskTime(startUnixTime: Long, endUnixTime: Long): String {
         // Вычисляем разницу времени в секундах
         val timeDifferenceInSeconds = endUnixTime - startUnixTime
@@ -77,5 +76,19 @@ class UnitConverter(
         val minutes = (timeDifferenceInSeconds % 3600) / 60
         val seconds = timeDifferenceInSeconds % 60
         return "$hours часов $minutes минут"
+    }
+    @Composable
+    private fun calculationDay(startUnixTime: Long, endUnixTime: Long): String {
+        // Вычисляем разницу времени в секундах
+        return "${LocalContext.current.resources.getString(R.string.sunrise)} - ${convertUnixToOmskTime(weatherInfo.sunrise)} --> ${LocalContext.current.resources.getString(R.string.sunset)} ${
+            convertUnixToOmskTime(
+                weatherInfo.sunset
+            )
+        } \n${
+            convertUnixToOmskTime(
+                weatherInfo.sunrise,
+                weatherInfo.sunset
+            )
+        } ${LocalContext.current.resources.getString(R.string.duration_day)}"
     }
 }

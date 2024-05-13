@@ -39,8 +39,6 @@ fun  Screen2() {
 @Composable
 fun  Screen1() {
     WeatherFirst(LocalContext.current)
-
-
 }
 
 

@@ -3,55 +3,82 @@
 
 
 package ru.fesenko.helloweather.weatherUI
-import ru.fesenko.helloweather.viewmodels.WeatherFirst
-import android.Manifest
+import ru.fesenko.helloweather.viewmodels.GetCoord
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.pm.PackageManager
 import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.CancellationTokenSource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import ru.fesenko.helloweather.MainActivity
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import android.location.Location
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewmodel.compose.viewModel
-import ru.fesenko.helloweather.viewmodels.WeatherViewModel
-import kotlin.math.roundToLong
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import kotlin.math.roundToInt
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun WeatherFirst (context: Context) {
-    Row () {
 
-        WeatherFirst.fetchCurrentLocation(LocalContext.current)
-        val currentLocationPair by WeatherFirst.currentLocationLiveData.observeAsState()
-        Text(
-            text = "Ширина ${1}", modifier = Modifier
-                .padding(top = 100.dp)
+        GetCoord.fetchCurrentLocation(LocalContext.current)
+        val currentLocationPair by GetCoord.currentLocationLiveData.observeAsState()
+        val titleTextStyle = TextStyle(
+            color = Color.Black,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
         )
-        Text(
-            text = "Долгота ${1}", modifier = Modifier
-                .padding(top = 100.dp)
+
+        val descriptionTextStyle = TextStyle(
+            color = Color.Gray,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Normal
         )
-    }
+
+        val errorTextStyle = TextStyle(
+            color = Color.Red,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            fontStyle = FontStyle.Italic
+        )
+
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            if (currentLocationPair != null) {
+                Row() {
+
+
+                    Text(
+                        text = "Ширина ${currentLocationPair?.first?.roundToInt()},",
+//                        modifier = Modifier.padding(top = 100.dp),
+                        style = titleTextStyle
+                    )
+                    Text(
+                        text = " Долгота ${currentLocationPair?.second?.roundToInt()}",
+//                        modifier = Modifier.padding(top = 16.dp),
+                        style = titleTextStyle
+                    )
+                }
+            } else {
+                Text(
+                    text = "Перезайдите в приложение",
+                    modifier = Modifier.padding(top = 100.dp),
+                    style = errorTextStyle
+                )
+            }
+        }
     Log.d("Screen_2", "d")
 //
 }
@@ -96,4 +123,3 @@ fun WeatherFirst (context: Context) {
 //        }
 //    }
 //}
-private const val  YOUR_REQUEST_CODE = 1001

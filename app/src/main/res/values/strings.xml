@@ -3,4 +3,12 @@
     <string name="wind_info">Ветер</string>
     <string name="right_now">Прямо сейчас</string>
     <string name="feels_like">Чувствется как</string>
+    <string name="sunrise">Восход</string>
+    <string name="sunset">Закат</string>
+    <string name="duration_day">часов дневного времени</string>
+    <string name="humidity">Влажность</string>
+    <string name="visibility"> Видимость</string>
+
+
+    Видимость ${weatherInfo.visibility
 </resources>
