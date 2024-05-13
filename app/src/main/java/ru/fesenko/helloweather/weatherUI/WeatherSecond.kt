@@ -25,7 +25,7 @@ fun WeatherSecond(
             fontSize = 45.sp
         )
         Text(
-            text = "${weatherData.weatherInfo.weatherDescription}",
+            text = "${weatherData.weatherDescriptionUnit}",
             fontSize = 35.sp
         )
         Text(

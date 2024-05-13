@@ -26,7 +26,7 @@ import ru.fesenko.helloweather.dataHandler.UnitConverter
 import ru.fesenko.helloweather.network.CurrentWeatherResponse
 import ru.fesenko.helloweather.network.HourlyForecastResponse
 import ru.fesenko.helloweather.weatherUI.WeatherSecond
-import ru.fesenko.helloweather.weatherUI.convertUnixToOmskTime
+
 
 private const val  YOUR_REQUEST_CODE = 1001
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -42,23 +42,26 @@ object  WeatherViewModel : ViewModel() {
         val service = RetrofitInstance.create()
         viewModelScope.launch {
             try {
+                // Обработка текущей погоды
+                //Через координаты
+//                val response = service.getHourlyForecast(54.23,
+////                    73.58)
                 val response = service.getHourlyForecast(currentLocationPair!!.first,
                     currentLocationPair!!.second)
+
                 // Обработка полученного прогноза погоды по часам
                 // displayHourlyForecast(response)
-
                 val response2 = service.getCurrentWeather(
                     currentLocationPair!!.first,
                     currentLocationPair!!.second
                 )
                 displayCurrentWeather(response2)
-                // Обработка текущей погоды
+
                 // displayCurrentWeather(response2)
 
                 _weatherInfo.value = displayCurrentWeatherView(response2)
-                displayHourlyForecast(response)
+//                displayHourlyForecast(response)
                 hourlyForecast.postValue(extractHourlyForecast(response))
-                Log.d("11",  hourlyForecast!!.value?.get(0)!!.temperature.toString())
 
             } catch (e: Exception) {
                 Log.e("Weather", "Error: ${e.message}")
@@ -188,16 +191,16 @@ private fun displayCurrentWeather(response: CurrentWeatherResponse) {
     Log.d("Current Weather", "Направление ветра: ${response.wind.deg}")
 }
 
-fun displayHourlyForecast(response: HourlyForecastResponse) {
-    val hourlyForecastList = response.list
-    for (hourlyForecastItem in hourlyForecastList) {
-        val timestamp = (hourlyForecastItem.dt) // Время прогноза в формате Unix timestamp
-        val temperature = hourlyForecastItem.main.temp// Температура
-        val description = hourlyForecastItem.weather.first().description // Описание погоды
-        // Вывод данных о погоде на каждый час
-        Log.d("Hourly Forecast", "Time: $${convertUnixToOmskTime(timestamp)},timestamp, Temperature: $temperature, Description: $description")
-    }
-}
+//fun displayHourlyForecast(response: HourlyForecastResponse) {
+//    val hourlyForecastList = response.list
+//    for (hourlyForecastItem in hourlyForecastList) {
+//        val timestamp = (hourlyForecastItem.dt) // Время прогноза в формате Unix timestamp
+//        val temperature = hourlyForecastItem.main.temp// Температура
+//        val description = hourlyForecastItem.weather.first().description // Описание погоды
+//        // Вывод данных о погоде на каждый час
+//        Log.d("Hourly Forecast", "Time: $${convertUnixToOmskTime(timestamp)},timestamp, Temperature: $temperature, Description: $description")
+//    }
+//}
 fun extractHourlyForecast(response: HourlyForecastResponse): List<WeatherInfo> {
     return response.list.map { hourlyForecastItem ->
         WeatherInfo(
@@ -227,5 +230,4 @@ fun printHourlyForecast(hourlyForecast: List<WeatherInfo>) {
         Log.d("HourlyForecast", "Humidity: ${weatherInfo.humidity}")
         Log.d("HourlyForecast", "") // Пустая строка для разделения прогнозов
     }
-
 }
