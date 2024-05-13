@@ -39,71 +39,7 @@ fun  Screen2() {
 @Composable
 fun  Screen1() {
     WeatherFirst(LocalContext.current)
-    WeatherViewModel.fetchWeather()
 
-}
-
-@Composable
-fun Histogram(weatherInfo: WeatherInfo, randomValues: List<Int>, maxValue: Int) {
-    LazyRow  ( modifier = Modifier.padding(bottom=100.dp)) {
-        items(randomValues.size) { index ->
-            Column(
-                modifier = Modifier
-                    .width(70.dp)
-                    .padding(start = 0.dp, end = 0.dp)
-            ) {
-                Spacer(modifier = Modifier.weight(1f))
-                Column(
-                    modifier = Modifier
-                        .width(70.dp)
-                        .padding(start = 10.dp, end = 10.dp)
-                ) {
-                    Box(
-                     // Круглая форма для карточки
-
-                        modifier = Modifier
-                            .width(100.dp)
-                            .height(100.dp * (randomValues[index].toFloat() / maxValue)).clip(
-                                RoundedCornerShape(
-                                    topStart = 10.dp, // Большой радиус для верхнего левого угла
-                                    topEnd = 10.dp, // Маленький радиус для верхнего правого угла
-                                   // Маленький радиус для нижнего левого угла
-                                )
-                            )
-                            .background(Color.Green),
-                        contentAlignment = Alignment.Center,
-
-
-
-
-                        ) {
-
-                        Text(text = "${weatherInfo.temperature-273}")
-                    }
-
-                }
-                Text(text = "11:00",     modifier = Modifier
-                    .align(Alignment.CenterHorizontally))
-                Image(
-                    painter = painterResource(id = R.drawable.sun),
-                    contentDescription = "image",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-
-                        .size(width = 64.dp, height = 46.dp).align(Alignment.CenterHorizontally)
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 0.dp, // Большой радиус для верхнего левого угла
-                                topEnd = 0.dp, // Маленький радиус для верхнего правого угла
-                                bottomEnd = 30.dp, // Большой радиус для нижнего правого угла
-                                bottomStart = 30.dp // Маленький радиус для нижнего левого угла
-                            )
-                        )
-                )
-
-        }
-    }
-        }
 
 }
 

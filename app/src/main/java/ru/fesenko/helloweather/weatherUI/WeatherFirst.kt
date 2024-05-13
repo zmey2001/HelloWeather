@@ -3,6 +3,7 @@
 
 
 package ru.fesenko.helloweather.weatherUI
+import ru.fesenko.helloweather.viewmodels.WeatherFirst
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -27,63 +28,34 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.location.Location
+import androidx.compose.foundation.layout.Row
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ru.fesenko.helloweather.viewmodels.WeatherViewModel
+import kotlin.math.roundToLong
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun WeatherFirst (context: Context) {
-    Text ( "122" , modifier = Modifier
-        .padding(top= 100.dp))
+    Row () {
+
+        WeatherFirst.fetchCurrentLocation(LocalContext.current)
+        val currentLocationPair by WeatherFirst.currentLocationLiveData.observeAsState()
+        Text(
+            text = "Ширина ${1}", modifier = Modifier
+                .padding(top = 100.dp)
+        )
+        Text(
+            text = "Долгота ${1}", modifier = Modifier
+                .padding(top = 100.dp)
+        )
+    }
     Log.d("Screen_2", "d")
 //
-//    GlobalScope.launch(Dispatchers.IO) {
-//
-//        val fLocationClient = LocationServices.getFusedLocationProviderClient(context)
-//        val ct = CancellationTokenSource()
-//        // Проверка разрешений на местоположение
-//        if (ActivityCompat.checkSelfPermission(
-//                context,
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED &&
-//            ActivityCompat.checkSelfPermission(
-//                context,
-//                Manifest.permission.ACCESS_COARSE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//
-//            // TODO: Передать правильный activity и requestCode вместо 'context' и 'YOUR_REQUEST_CODE'
-//            if (context is Activity) { // Проверяем, что context является Activity
-//                ActivityCompat.requestPermissions(
-//                    context,
-//                    arrayOf(
-//                        Manifest.permission.ACCESS_FINE_LOCATION,
-//                        Manifest.permission.ACCESS_COARSE_LOCATION
-//                    ),
-//                    YOUR_REQUEST_CODE // Необходимо определить константу для кода запроса
-//                )
-//            }
-//            return@launch
-//        }
-//
-//        // Запрос текущего местоположения с высокой точностью
-//        fLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, ct.token)
-//            .addOnCompleteListener { task ->
-//                if (task.isSuccessful && task.result != null) {
-//                    val location = task.result
-//                    Log.d(
-//                        "Location",
-//                        "Latitude: ${location.latitude}, Longitude: ${location.longitude}"
-//                    )
-//                    MainActivity.setGlobalVariable(Pair(location.latitude, location.longitude))
-//                } else {
-//                    Log.d("Location", "Failed to get location")
-//                }
-//            }
-//    }
-
 }
+
 
 
 //class WeatherViewModel : ViewModel() {
@@ -124,5 +96,4 @@ fun WeatherFirst (context: Context) {
 //        }
 //    }
 //}
-
 private const val  YOUR_REQUEST_CODE = 1001

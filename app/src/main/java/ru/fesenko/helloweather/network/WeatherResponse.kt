@@ -2,6 +2,7 @@ package ru.fesenko.helloweather.network
 
 data class CurrentWeatherResponse(
     val main: Main,
+    val dt: Long,
     val weather: List<Weather>,
     val wind: Wind,
    // Влажность (в процентах)

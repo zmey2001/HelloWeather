@@ -162,21 +162,16 @@ fun HourlyWeatherItem(hour: Int, temperature: Int) {
 ////    WeatherApp(weatherInfo)
 ////}
 
-fun displayHourlyForecast(response: HourlyForecastResponse) {
-    val hourlyForecastList = response.list
-    for (hourlyForecastItem in hourlyForecastList) {
-        val timestamp = (hourlyForecastItem.dt) // Время прогноза в формате Unix timestamp
-        val temperature = hourlyForecastItem.main.temp// Температура
-        val description = hourlyForecastItem.weather.first().description // Описание погоды
-
-
-        // Вывод данных о погоде на каждый час
-        Log.d("Hourly Forecast", "Time: $${convertUnixToOmskTime(timestamp)},timestamp, Temperature: $temperature, Description: $description")
-    }
-}
-
-
-
+//fun displayHourlyForecast(response: HourlyForecastResponse) {
+//    val hourlyForecastList = response.list
+//    for (hourlyForecastItem in hourlyForecastList) {
+//        val timestamp = (hourlyForecastItem.dt) // Время прогноза в формате Unix timestamp
+//        val temperature = hourlyForecastItem.main.temp// Температура
+//        val description = hourlyForecastItem.weather.first().description // Описание погоды
+//        // Вывод данных о погоде на каждый час
+//        Log.d("Hourly Forecast", "Time: $${convertUnixToOmskTime(timestamp)},timestamp, Temperature: $temperature, Description: $description")
+//    }
+//}
 
 
 private fun getWindDirection(degrees: Double): String {
