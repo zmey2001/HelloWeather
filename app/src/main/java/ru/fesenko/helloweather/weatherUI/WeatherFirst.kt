@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat.recreate
 import kotlin.math.roundToInt
 
-
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun WeatherFirst (context: Context) {
@@ -83,8 +82,6 @@ fun WeatherFirst (context: Context) {
     Log.d("Screen_2", "d")
 //
 }
-
-
 
 //class WeatherViewModel : ViewModel() {
 //

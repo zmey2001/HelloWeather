@@ -21,7 +21,6 @@ class UnitConverter(
     var humidityUnit:String="",
     var weatherDescriptionUnit:  String="",
     var weatherInfo: WeatherInfo,
-
 ) {
     @Composable
     fun convertUnits(){
@@ -33,7 +32,6 @@ class UnitConverter(
         sunriseANDsunsetUnit=calculationDay(weatherInfo.sunrise,weatherInfo.sunset)
         weatherDescriptionUnit=weatherInfo.weatherDescription.replaceFirstChar { it.uppercase() }
         humidityUnit="${LocalContext.current.resources.getString(R.string.humidity)} ${weatherInfo.humidity}%"
-
     }
     private fun convertTemperature(unit: Int, value: Double): String {
         return when (unit) {
@@ -99,7 +97,5 @@ class UnitConverter(
         val directions = arrayOf("С", "ССВ", "СВ", "ВСВ", "В", "ВЮВ", "ЮВ", "ЮЮВ", "Ю", "ЮЮЗ", "ЮЗ", "ЗЮЗ", "З", "ЗСЗ", "СЗ", "ССЗ")
         val index = ((degrees + 11.25) / 22.5).toInt() % 16
         return directions[index]
-
-
     }
 }

@@ -7,31 +7,18 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 
 
 
-import androidx.compose.ui.unit.dp
+
 import androidx.navigation.compose.rememberNavController
-
-
-import com.google.android.gms.location.LocationServices
-import ru.fesenko.helloweather.network.CurrentWeatherResponse
-import ru.fesenko.helloweather.network.HourlyForecastResponse
-import ru.fesenko.helloweather.network.WeatherInfo
-
 import android.Manifest
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -42,21 +29,11 @@ import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.delay
 import ru.fesenko.helloweather.weatherUI.WeatherScaffold
 
-
+//Ну ту всё понятно
 class MainActivity : ComponentActivity() {
-//    companion object {
-//        lateinit var globalVariable:  Pair<Double, Double>
-//            private set
-//
-//        fun setGlobalVariable(value: Pair<Double, Double>) {
-//            globalVariable = value
-//        }
-//    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
 //состояние для отрисовки сплеша
             var navigateToSecondScreen by remember { mutableStateOf(false) }
 
@@ -73,24 +50,13 @@ class MainActivity : ComponentActivity() {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                   SplashScreen(LocalContext.current)
+                   SplashScreen(this@MainActivity)
                 }
             }
         }
     }
-    }
+}
 
-//@Composable
-//fun SettingsScreen(viewModel: SettingsViewModel) {
-//    val settings by viewModel.settings.collectAsState()
-//    var brightness = settings?.brightness ?: 0
-//
-//    Column {
-//        Text(text = "Current Brightness: $brightness")
-//
-//
-//    }
-//}
 
 
 
@@ -99,8 +65,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun WeatherApp() {
     val navController = rememberNavController()
-
-
     Scaffold(
         topBar = {
             TopAppBar(

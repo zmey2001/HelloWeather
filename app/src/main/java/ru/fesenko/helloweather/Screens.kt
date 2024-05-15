@@ -28,17 +28,17 @@ import ru.fesenko.helloweather.viewmodels.WeatherUIController
 import ru.fesenko.helloweather.viewmodels.WeatherViewModel
 
 
-
+//Экраны навигации
+//Экран париснга координат
+@Composable
+fun  Screen1() {
+    WeatherFirst(LocalContext.current)
+}
+//Экран погоды
 @Composable
 fun  Screen2() {
     WeatherUIController.observeWeatherInfo()
     WeatherViewModel.fetchWeather()
-
-
-}
-@Composable
-fun  Screen1() {
-    WeatherFirst(LocalContext.current)
 }
 
 

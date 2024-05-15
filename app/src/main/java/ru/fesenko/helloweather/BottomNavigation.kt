@@ -43,7 +43,6 @@ fun BottomNavigation (navController: NavController) {
                     unselectedIconColor = Color.Gray,
                     unselectedTextColor = Color.Gray
                 )
-
                 )
         }
 

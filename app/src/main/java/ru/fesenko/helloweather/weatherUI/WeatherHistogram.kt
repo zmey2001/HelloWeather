@@ -21,8 +21,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import ru.fesenko.helloweather.R
-import ru.fesenko.helloweather.network.Weather
 import ru.fesenko.helloweather.network.WeatherInfo
+
+
 
 @Composable
 fun WeatherHistogram(hourlyForecast: List<WeatherInfo>?,maxValue: Int) {
